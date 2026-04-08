@@ -1,0 +1,99 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user information, skills, and quiz results.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "interests": { "type": "array", "items": { "type": "string" } },
+        "personalityType": { "type": "string" },
+        "workStyle": { "type": "object" },
+        "currentRole": { "type": "string" },
+        "targetRoles": { "type": "array", "items": { "type": "string" } },
+        "projects": { "type": "array", "items": { "type": "object" } },
+        "certifications": { "type": "array", "items": { "type": "object" } },
+        "remotePreference": { "type": "string" },
+        "savedRoadmaps": { "type": "array", "items": { "type": "string" } },
+        "savedSteps": { "type": "array", "items": { 
+          "type": "object",
+          "properties": {
+            "roadmapId": { "type": "string" },
+            "stepIndex": { "type": "integer" }
+          }
+        } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Recommendation": {
+      "title": "Career Recommendation",
+      "description": "AI-generated career path recommendations.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "matchScore": { "type": "number" },
+        "salaryData": { "type": "object" },
+        "marketTrends": { "type": "object" },
+        "topCompanies": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Roadmap": {
+      "title": "Learning Roadmap",
+      "description": "Step-by-step learning path for a career.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "careerTitle": { "type": "string" },
+        "steps": { "type": "array", "items": { 
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "resources": { "type": "array", "items": { "type": "string" } },
+            "duration": { "type": "string" },
+            "completed": { "type": "boolean" }
+          }
+        } },
+        "skillGaps": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Interview": {
+      "title": "Mock Interview",
+      "description": "History of mock interview sessions.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "role": { "type": "string" },
+        "transcript": { "type": "array", "items": { "type": "object" } },
+        "feedback": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents."
+    },
+    "/recommendations/{recId}": {
+      "schema": "Recommendation",
+      "description": "Career recommendations."
+    },
+    "/roadmaps/{roadmapId}": {
+      "schema": "Roadmap",
+      "description": "Learning roadmaps."
+    },
+    "/interviews/{interviewId}": {
+      "schema": "Interview",
+      "description": "Mock interview sessions."
+    }
+  }
+}
