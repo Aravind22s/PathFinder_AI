@@ -8,20 +8,19 @@ service cloud.firestore {
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
-    function isDocOwner() {
-      return isAuthenticated() && request.auth.uid == resource.data.userId;
-    }
-    function isValidUser(data) {
-      return data.keys().hasAll(['uid', 'email']) &&
+    function isValidNewUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt']) &&
              data.uid is string &&
-             data.email is string;
+             data.email is string &&
+             data.createdAt is string &&
+             data.uid == request.auth.uid;
     }
 
     // User Profiles
     match /users/{userId} {
       allow read: if isOwner(userId);
-      allow create: if isOwner(userId) && isValidUser(request.resource.data);
-      allow update: if isOwner(userId) && isValidUser(request.resource.data);
+      allow create: if isOwner(userId) && isValidNewUser(request.resource.data);
+      allow update: if isOwner(userId);
     }
 
     // Recommendations
