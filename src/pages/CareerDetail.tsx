@@ -95,8 +95,8 @@ const CareerDetail: React.FC<CareerDetailProps> = ({ user, profile, setProfile }
     setGenerating(true);
     try {
       const newRoadmap = await careerService.generateRoadmap(profile, careerRec.title);
-      await userService.saveRoadmap(newRoadmap);
-      setRoadmap(newRoadmap);
+      const id = await userService.saveRoadmap(newRoadmap);
+      setRoadmap({ ...newRoadmap, id });
     } catch (error) {
       console.error("Error generating roadmap:", error);
     } finally {

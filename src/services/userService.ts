@@ -49,8 +49,9 @@ export const userService = {
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as CareerRecommendation));
   },
 
-  async saveRecommendation(rec: CareerRecommendation): Promise<void> {
-    await addDoc(collection(db, 'recommendations'), rec);
+  async saveRecommendation(rec: CareerRecommendation): Promise<string> {
+    const docRef = await addDoc(collection(db, 'recommendations'), rec);
+    return docRef.id;
   },
 
   async getRoadmap(userId: string, careerTitle: string): Promise<LearningRoadmap | null> {
@@ -64,8 +65,9 @@ export const userService = {
     return querySnapshot.empty ? null : { id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() } as LearningRoadmap;
   },
 
-  async saveRoadmap(roadmap: LearningRoadmap): Promise<void> {
-    await addDoc(collection(db, 'roadmaps'), roadmap);
+  async saveRoadmap(roadmap: LearningRoadmap): Promise<string> {
+    const docRef = await addDoc(collection(db, 'roadmaps'), roadmap);
+    return docRef.id;
   },
 
   async updateRoadmap(id: string, roadmap: Partial<LearningRoadmap>): Promise<void> {
@@ -73,8 +75,9 @@ export const userService = {
     await updateDoc(docRef, roadmap);
   },
 
-  async saveInterview(interview: MockInterview): Promise<void> {
-    await addDoc(collection(db, 'interviews'), interview);
+  async saveInterview(interview: MockInterview): Promise<string> {
+    const docRef = await addDoc(collection(db, 'interviews'), interview);
+    return docRef.id;
   },
 
   async toggleRoadmapBookmark(userId: string, roadmapId: string): Promise<void> {

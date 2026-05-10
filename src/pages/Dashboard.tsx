@@ -41,10 +41,12 @@ const Dashboard: React.FC<DashboardProps> = ({ user, profile }) => {
     setGenerating(true);
     try {
       const newRecs = await careerService.generateRecommendations(profile);
+      const savedRecs: CareerRecommendation[] = [];
       for (const rec of newRecs) {
-        await userService.saveRecommendation(rec);
+        const id = await userService.saveRecommendation(rec);
+        savedRecs.push({ ...rec, id });
       }
-      setRecommendations(newRecs);
+      setRecommendations(savedRecs);
     } catch (error) {
       console.error("Error generating recommendations:", error);
     } finally {
